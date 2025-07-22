@@ -22,21 +22,11 @@ app.use(cors({
 app.use('/api/user', UserRouter);
 
 const PORT = process.env.PORT || 3000;
-
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(` Server started on port ${PORT}`);
+   await connectDB();
+   app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
     });
-  } catch (err) {
-    console.error(' Failed to start server:', err);
-  }
-};
 
-startServer();
-
-// 🧪 Root route
 app.get('/', (req, res) => {
   res.send('API is working fine');
 });
