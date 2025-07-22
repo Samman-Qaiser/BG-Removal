@@ -1,17 +1,21 @@
-// lib/dbConnect.js
+// mongodb.js
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-let isConnected = false;
+dotenv.config();
 
 const connectDB = async () => {
-  if (isConnected) return;
+  try {
+    const conn = await mongoose.connect(process.env.URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-  const db = await mongoose.connect(process.env.URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  isConnected = db.connections[0].readyState;
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1); // Exit process with failure
+  }
 };
 
 export default connectDB;
