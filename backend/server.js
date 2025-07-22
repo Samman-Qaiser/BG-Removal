@@ -11,8 +11,12 @@ app.use(cors({
   origin: 'http://localhost:5173', // your frontend URL
   credentials: true
 }))
-app.use('/api/user/', UserRouter)
-app.use(express.json())
+app.use('/api/user/webhooks', express.raw({ type: 'application/json' }));
+
+// ✅ Then your other routes
+app.use(express.json()); // JSON parser after raw for other routes
+
+app.use('/api/user', UserRouter);
 
 const PORT = process.env.PORT || 3000
 mongoose.connect(process.env.URI)
