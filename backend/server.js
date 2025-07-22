@@ -29,5 +29,7 @@ mongoose.connect(process.env.URI)
   .catch((error) => {
     console.log(`ERROR ${error}`)
   })
-
+app.get('/',(req,res)=>{
+  res.send("API i working")
+})
 export default app
