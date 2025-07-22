@@ -17,7 +17,7 @@ export const ClerkWebHook = async (req, res) => {
 
     switch (type) {
       case "user.created":
-        await UserModel.create({
+        await userModel.create({
           clerkId: data.id,
           email: data.email_addresses?.[0]?.email_address,
           photo: data.image_url,
@@ -28,7 +28,7 @@ export const ClerkWebHook = async (req, res) => {
         break;
 
       case "user.updated":
-        await UserModel.findOneAndUpdate(
+        await userModel.findOneAndUpdate(
           { clerkId: data.id },
           {
             email: data.email_addresses?.[0]?.email_address,
@@ -41,7 +41,7 @@ export const ClerkWebHook = async (req, res) => {
         break;
 
       case "user.deleted":
-        await UserModel.findOneAndDelete({ clerkId: data.id });
+        await userModel.findOneAndDelete({ clerkId: data.id });
         res.status(200).json({ success: true, message: "User deleted." });
         break;
 
