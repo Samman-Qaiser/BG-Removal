@@ -10,12 +10,12 @@ const UserSchema=mongoose.Schema({
             type:String,
             required:true,  unique:true
         }
-        ,photo:{type:String,required:true},
+        ,   photo:{type:String,required:true},
         firstName:{type:String},
-         LastName:{type:String},
-         creditBalance:{type:Number,default:5}
+         lastName:{type:String},
+    creditBalance:{type:Number,default:5}
 
     
 })
-const UserModel=mongoose.model('userModel',UserSchema)
-export default UserModel
+const userModel=mongoose.model('userModel',UserSchema)
+export default userModel
