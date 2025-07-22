@@ -1,14 +1,23 @@
-// mongodb.js
+// lib/dbConnect.js
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-dotenv.config();
+
+let isConnected = false;
 
 const connectDB = async () => {
- mongoose.connection.on('connected',()=>{
-  console.log('database connected')
+  if (isConnected) return;
 
- })
- await mongoose.connect(process.env.URI)
+  try {
+    const db = await mongoose.connect(process.env.URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    isConnected = db.connections[0].readyState;
+    console.log("✅ MongoDB connected");
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+    throw error;
+  }
 };
 
 export default connectDB;
