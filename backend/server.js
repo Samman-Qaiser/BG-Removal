@@ -10,10 +10,7 @@ dotenv.config();
 
 const app = express();
 
-// 🧠 Important: Clerk webhook raw parser must be BEFORE any body parsers
-app.use('/api/user/webhooks', express.raw({ type: 'application/json' }));
 
-// 🔐 Then apply JSON and cookie parsing middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
@@ -21,10 +18,9 @@ app.use(cors({
   credentials: true
 }));
 
-// 📦 Routes
+
 app.use('/api/user', UserRouter);
 
-// 🚀 DB + Server start
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
@@ -42,7 +38,7 @@ startServer();
 
 // 🧪 Root route
 app.get('/', (req, res) => {
-  res.send('API is working');
+  res.send('API is working fine');
 });
 
 export default app;

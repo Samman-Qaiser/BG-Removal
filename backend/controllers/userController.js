@@ -4,17 +4,15 @@ import { Webhook } from 'svix';
 export const ClerkWebHook = async (req, res) => {
   try {
     
-    const payload = JSON.stringify(req.body); // Required for svix verify
-    const headers = {
-      "svix-id": req.headers["svix-id"],
+       // Required for svix verify
+       const whook=new Webhook(process.env.CLERK_WEBHOOK_SECRET)
+       await whook.verify(JSON.stringify(req.body),{
+         "svix-id": req.headers["svix-id"],
       "svix-timestamp": req.headers["svix-timestamp"],
       "svix-signature": req.headers["svix-signature"],
-    };
+       })
 
-    const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
-    const evt = wh.verify(payload, headers);
-
-    const { data, type } = evt;
+    const { data, type } = req.body;
 
     switch (type) {
       case "user.created":
@@ -32,10 +30,10 @@ export const ClerkWebHook = async (req, res) => {
         await userModel.findOneAndUpdate(
           { clerkId: data.id },
           {
-            email: data.email_addresses?.[0]?.email_address,
+            email: data.email_addresses[0].email_address,
             photo: data.image_url,
             firstName: data.first_name,
-            lastName: data.last_name,
+            lastName: data.last_name,j
           }
         );
         res.status(200).json({ success: true, message: "User updated." });
