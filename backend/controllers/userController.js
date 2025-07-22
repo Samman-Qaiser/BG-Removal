@@ -3,6 +3,7 @@ import { Webhook } from 'svix';
 
 export const ClerkWebHook = async (req, res) => {
   try {
+    
     const payload = JSON.stringify(req.body); // Required for svix verify
     const headers = {
       "svix-id": req.headers["svix-id"],

@@ -1,35 +1,48 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
-import UserRouter from './routes/userRouter.js'
-const app = express()
-dotenv.config()
-app.use(express.json())
-app.use(cors({
-  origin: 'http://localhost:5173', // your frontend URL
-  credentials: true
-}))
+// index.js or server.js
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import connectDB from './config/mongodb.js';
+import UserRouter from './routes/userRouter.js';
+
+dotenv.config();
+
+const app = express();
+
+// 🧠 Important: Clerk webhook raw parser must be BEFORE any body parsers
 app.use('/api/user/webhooks', express.raw({ type: 'application/json' }));
 
-// ✅ Then your other routes
-app.use(express.json()); // JSON parser after raw for other routes
+// 🔐 Then apply JSON and cookie parsing middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
+// 📦 Routes
 app.use('/api/user', UserRouter);
 
-const PORT = process.env.PORT || 3000
-mongoose.connect(process.env.URI)
-  .then(() => {
-    console.log('database connected successfully')
+// 🚀 DB + Server start
+const PORT = process.env.PORT || 3000;
+
+const startServer = async () => {
+  try {
+    await connectDB();
     app.listen(PORT, () => {
-      console.log('server started successfully')
-    })
-  })
-  .catch((error) => {
-    console.log(`ERROR ${error}`)
-  })
-app.get('/',(req,res)=>{
-  res.send("API i working")
-})
-export default app
+      console.log(`✅ Server started on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
+  }
+};
+
+startServer();
+
+// 🧪 Root route
+app.get('/', (req, res) => {
+  res.send('API is working');
+});
+
+export default app;
