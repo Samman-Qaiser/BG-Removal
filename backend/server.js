@@ -14,10 +14,11 @@ app.use(express.json())
 app.get('/',(req,res)=>{
     res.send('hi')
 })
+const PORT=process.env.PORT||3000
 mongoose.connect(process.env.URI)
 .then(()=>{
     console.log('database connected successfully')
-    app.listen(process.env.PORT,()=>{
+    app.listen(PORT,()=>{
     console.log('server started successfully')
 })
 })
