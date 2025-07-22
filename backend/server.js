@@ -25,3 +25,4 @@ mongoose.connect(process.env.URI)
 .catch((error)=>{
     console.log(`ERROR ${error}`)
 })
+export default app
