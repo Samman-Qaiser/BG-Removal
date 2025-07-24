@@ -33,7 +33,7 @@ export const ClerkWebHook = async (req, res) => {
             email: data.email_addresses[0].email_address,
             photo: data.image_url,
             firstName: data.first_name,
-            lastName: data.last_name,j
+            lastName: data.last_name,
           }
         );
         res.status(200).json({ success: true, message: "User updated." });
@@ -56,14 +56,19 @@ export const ClerkWebHook = async (req, res) => {
   }
 };
 
-export const userCredit=async (req,res)=>{
-  try{
-    const {clerkId}=req.body
-    const user=await userModel.find({clerkId})
-      res.json({success:true,creditBalance:user.creditBalance})
+export const userCredit = async (req, res) => {
+  try {
+    const { clerkId } = req;
+    const user = await userModel.findOne({ clerkId });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, creditBalance:user.creditBalance ,firstName:user.firstName });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ success: false, message: error.message });
   }
-  catch(error){
-   console.error(err);
-    return res.status(400).json({ success: false, message: err.message }); 
-  }
-}
+};
+

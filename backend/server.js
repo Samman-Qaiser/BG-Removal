@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/mongodb.js';
 import UserRouter from './routes/userRouter.js';
+import imageRouter from './routes/imgroutes.js';
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.use(cors({
 }));
 
 app.use('/api/user', UserRouter);
-
+app.use('/api/image',imageRouter)
 app.get('/', (req, res) => {
   res.send('API is working fine');
 });

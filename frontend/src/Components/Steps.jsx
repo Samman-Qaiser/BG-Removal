@@ -26,7 +26,7 @@ const Steps = () => {
   return (
     <section className="w-full bg-gray-50 py-20 px-6">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-4xl  font-bold text-gray-700 mb-4 w-[60%] m-auto">
+        <h2 className="lg:text-4xl  sm:w-[100%] sm:text-xl sm:[2rem] font-bold text-gray-700 mb-4 lg:w-[60%] m-auto">
          Steps to remove background
 image in seconds
         </h2>

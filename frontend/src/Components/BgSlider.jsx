@@ -20,7 +20,7 @@ const BgSlider = () => {
         Remove Background With High Quality and Accuracy
       </h1>
 
-      <div className="relative h-[80vh] max-w-2xl mx-auto w-full aspect-[4/3] rounded-xl overflow-hidden shadow-md">
+      <div className="relative lg:h-[80vh] sm:h-[40vh] max-w-2xl mx-auto w-full aspect-[4/3] rounded-xl overflow-hidden shadow-md">
         {/* Original Image with Background */}
         <img
           src={img_with}
